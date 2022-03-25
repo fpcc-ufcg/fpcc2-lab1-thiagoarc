@@ -457,6 +457,8 @@ print(md)</code></pre>
 <pre class="r"><code>df_ni &lt;- turma_fpcc2 %&gt;% select(conf_sumarios) %&gt;% group_by(conf_sumarios) %&gt;% summarise(nivel = n())
 mean(df_ni$nivel)</code></pre>
 <pre><code>## [1] 4.8</code></pre>
+<pre class="r"><code>sd(df_ni$nivel)</code></pre>
+<pre><code>## [1] 1.48324</code></pre>
 <pre class="r"><code>print(df_ni)</code></pre>
 <pre><code>## # A tibble: 5 x 2
 ##   conf_sumarios        nivel
@@ -466,6 +468,81 @@ mean(df_ni$nivel)</code></pre>
 ## 3 Nenhuma confiança        3
 ## 4 Totalmente confiante     4
 ## 5 Um pouco                 7</code></pre>
+<pre class="r"><code>print(&quot;Internet&quot;)</code></pre>
+<pre><code>## [1] &quot;Internet&quot;</code></pre>
+<pre class="r"><code>##id &lt;- turma_fpcc2$idade
+##nivel &lt;- turma_fpcc2$conf_sumarios
+
+q1_t &lt;- turma_fpcc2 %&gt;% select(conf_sumarios, idade) %&gt;% mutate(idade = as.integer(gsub(&quot;[a-z]|\\.&quot;, &quot;&quot;, idade)))
+
+df_t &lt;- data.frame(idade=q1_t$idade, nivel=q1_t$conf_sumarios)
+
+print(df_t)</code></pre>
+<pre><code>##    idade                nivel
+## 1     29   Bastante confiante
+## 2     36   Bastante confiante
+## 3     26             Um pouco
+## 4     29   Bastante confiante
+## 5     25                Médio
+## 6     22 Totalmente confiante
+## 7     24   Bastante confiante
+## 8     28 Totalmente confiante
+## 9     27 Totalmente confiante
+## 10    35                Médio
+## 11    38             Um pouco
+## 12    34    Nenhuma confiança
+## 13    25    Nenhuma confiança
+## 14    37                Médio
+## 15    38   Bastante confiante
+## 16    23                Médio
+## 17    25             Um pouco
+## 18    22    Nenhuma confiança
+## 19    26 Totalmente confiante
+## 20    30             Um pouco
+## 21    39                Médio
+## 22    39             Um pouco
+## 23    25             Um pouco
+## 24    30             Um pouco</code></pre>
+<pre class="r"><code>sum_idade &lt;- df_t %&gt;% select(idade, nivel) %&gt;% summarise(m_idade = mean(idade), sd_idade = sd(idade), m_nivel = mean(nivel), sd_nivel= sd(nivel)) %&gt;% arrange()</code></pre>
+<pre><code>## Warning in mean.default(nivel): argumento não é numérico nem lógico: retornando
+## NA</code></pre>
+<pre><code>## Warning in var(if (is.vector(x) || is.factor(x)) x else as.double(x), na.rm =
+## na.rm): NAs introduzidos por coerção</code></pre>
+<pre class="r"><code>sum_idade %&gt;% head() %&gt;% formattable::formattable()</code></pre>
+<table class="table table-condensed">
+<thead>
+<tr>
+<th style="text-align:right;">
+m_idade
+</th>
+<th style="text-align:right;">
+sd_idade
+</th>
+<th style="text-align:right;">
+m_nivel
+</th>
+<th style="text-align:right;">
+sd_nivel
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+29.66667
+</td>
+<td style="text-align:right;">
+5.798551
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="questão-2" class="section level2">
 <h2>Questão 2</h2>

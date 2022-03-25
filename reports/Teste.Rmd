@@ -30,8 +30,38 @@ sd(df_idade$idade_int)
 
 df_ni <- turma_fpcc2 %>% select(conf_sumarios) %>% group_by(conf_sumarios) %>% summarise(nivel = n())
 mean(df_ni$nivel)
+sd(df_ni$nivel)
 
 print(df_ni)
+
+
+print("Internet")
+
+
+
+
+
+
+
+##id <- turma_fpcc2$idade
+##nivel <- turma_fpcc2$conf_sumarios
+
+q1_t <- turma_fpcc2 %>% select(conf_sumarios, idade) %>% mutate(idade = as.integer(gsub("[a-z]|\\.", "", idade)))
+
+df_t <- data.frame(idade=q1_t$idade, nivel=q1_t$conf_sumarios)
+
+df_t[nivel == "Nenhuma confiança"] <- 1
+df_t[nivel == "Um pouco"] <- 2
+df_t[nivel == "Médio"] <- 3
+df_t[nivel == "Bastante confiante"] <- 4
+df_t[nivel == "Totalmente confiante"] <- 5
+
+
+print(df_t)
+
+sum_idade <- df_t %>% select(idade, nivel) %>% summarise(m_idade = mean(idade), sd_idade = sd(idade), m_nivel = mean(nivel), sd_nivel= sd(nivel)) %>% arrange()
+
+sum_idade %>% head() %>% formattable::formattable()
 
 
 ```
