@@ -10,6 +10,7 @@ output: html_document
 ```{r pacotes}
 library(ggplot2)
 library(scales)
+require(tidyverse)
 source("../code/lab1.R")
 ```
   
@@ -19,9 +20,23 @@ source("../code/lab1.R")
 
 ```{r calculo da questão 1}
 
+df_idade <- turma_fpcc2 %>% select(idade) %>% 
+  mutate(idade_int = as.integer(gsub("[a-z]|\\.", "", idade)))
+print('Média geral das idades: ')
+md <- mean(df_idade$idade_int)
+print(md)
+print('Desvio Padrão das idades: ')
+sd(df_idade$idade_int)
+
+df_ni <- turma_fpcc2 %>% select(conf_sumarios) %>% group_by(conf_sumarios) %>% summarise(nivel = n())
+mean(df_ni$nivel)
+
+print(df_ni)
+
+
 ```
 
-## QUestão 2
+## Questão 2
 * Qual o curso com maior valor médio de idade? Discutir os resultados com base nos dados disponíveis em termos de representatividade. 
 
 ```{r calculo da questão 2}
@@ -29,7 +44,7 @@ q1 <- turma_fpcc2 %>%
 select(tipo_curso, idade) %>% 
 mutate(idade_int = as.integer(gsub("[a-z]|\\.", "", idade))) %>%
 group_by(tipo_curso) %>% 
-summarise(max(idade_int))
+summarise(mean(idade_int))
 
 print(q1)
 
@@ -52,12 +67,16 @@ summarise(media = mean(idade_int))
 
 print(q1)
 
-ggplot(q1, aes(tipo_curso, media, fill = tipo_curso)) + 
+graph3 <- ggplot(q1, aes(tipo_curso, media, fill = tipo_curso)) + 
   geom_bar(stat = "identity") + 
   xlab("Tipo de curso") +
   ylab("Idade Média") + 
   theme_bw(base_size = 14) + 
   theme(legend.position = "None")
+
+print(graph3)
+
+ggsave(graph3, filename='E:/Curso Mestrado/FPCC2/fpcc2-lab1-thiagoarc/images/questao3.png', dpi = 400, type='cairo', units='in')
 
 ```
 
@@ -65,7 +84,7 @@ ggplot(q1, aes(tipo_curso, media, fill = tipo_curso)) +
 * Crie um gráfico que mostra o percentual de alunos para cada estado de origem. Apresente o gráfico e discuta os resultados no relatório. O gráfico também deve ser salvo em uma imagem no formato png, que deve ser adicionada ao repositório.  
 ```{r calculo da questão 4}
 
-q2 <- turma_fpcc2 %>% select(uf) %>% 
+q4 <- turma_fpcc2 %>% select(uf) %>% 
   mutate(uf = case_when(
     uf == "Opção 1" ~ "NA",
     uf == "Paraiba" ~ "PB", 
@@ -80,7 +99,65 @@ q2 <- turma_fpcc2 %>% select(uf) %>%
   count(uf) %>% 
   arrange(-n, uf)
 
-print(q2)
+print(q4)
 
+q4 <- q4 %>%
+  mutate(perc = n/sum(n))
+
+print(q4)
+
+graph4 <- ggplot(q4, aes(uf, perc, fill = uf)) + 
+  geom_bar(stat = "identity") + 
+  xlab("UF") +
+  ylab("Percentual de Alunos (%)") + 
+  theme_bw(base_size = 14) + 
+  theme(legend.position = "None") +
+  scale_y_continuous(labels = percent)
+
+print(graph4)
+
+ggsave(graph4, filename='E:/Curso Mestrado/FPCC2/fpcc2-lab1-thiagoarc/images/questao4.png', dpi = 400, type='cairo', units='in')
+
+```
+
+## Questão 5    
+* Compare a média de idade geral com a média de idade dos top-5 e dos bottom-5. Além de apresentar e discutir os resultados no relatório, salvar em uma tabela (dataframe) com as médias em questão.    
+
+```{r calculo da questão 5}
+
+print('A média geral de idade é: ')
+print(md)
+q5 <- turma_fpcc2 %>% 
+select(idade) %>% 
+mutate(idade = as.integer(gsub("[a-z]|\\.", "", idade)))
+
+print(' A média do TOP-5 é: ')
+qt5 <- q5 %>%
+  arrange(desc(idade)) %>%
+  slice(1:5)
+
+print(qt5)
+mtd <- mean(qt5$idade)
+print(mtd)
+
+
+print(' A média do BOTTOM-5 é: ')
+qb5 <- q5 %>%
+  arrange(idade) %>%
+  slice(1:5)
+
+print(qb5)
+mbd <- mean(qb5$idade)
+print(mbd)
+
+
+df_idade_q5 <- data.frame(md, mtd, mbd)
+
+
+# renomeando colunas
+colnames <- c("Média Geral de Idades", "Média de Idades TOP-5", "Média de Idades BOTTOM-5")
+colnames(df_idade_q5) <- colnames
+
+print(df_idade_q5)
 
 ```

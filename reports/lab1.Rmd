@@ -1,6 +1,6 @@
 ---
 title: "FPCC2 - Laboratório 1"
-author: "<<aluno>>"
+author: "Thiago Chaves"
 ---
 
 ```{r setup, include=FALSE}
