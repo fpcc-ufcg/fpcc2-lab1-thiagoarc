@@ -1,5 +1,7 @@
 # FPCC2 - Laboratório 1
 
+## THiAGO ANDRÉ REGO CHAVES
+
 Com base no arquivo de dados (no diretório data) responda as questões abaixo, gerando um relatório em formato md a partir de um arquivo R Markdown (existe um exemplo no diretório reports). O relatório deve ser adicionado ao repositório do seu lab.
 
 ## Questões

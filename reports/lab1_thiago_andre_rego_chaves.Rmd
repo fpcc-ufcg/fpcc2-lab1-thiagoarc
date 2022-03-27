@@ -127,6 +127,8 @@ print(graph4)
 ggsave(graph4, filename='D:/Mestrado UFCG/FPCC2/fpcc2-lab1-thiagoarc/images/questao4.png', dpi = 400, type='cairo', units='in')
 
 ```
+### Comentários sobre a questão 4
+* O item Opção 1 foi substituido por NA, que virou mais uma categoria para a geração do gráfico, foram substituidas as strings de estado pelas siglas dos respectivos estados para apartir dai agrupar os resultados e calcular a porcentagem de cada um conforme foi mostrado no gráfico.
 
 ## Questão 5    
 * Compare a média de idade geral com a média de idade dos top-5 e dos bottom-5. Além de apresentar e discutir os resultados no relatório, salvar em uma tabela (dataframe) com as médias em questão.    
@@ -173,4 +175,8 @@ colnames(df_idade_q5) <- colnames
 
 print(df_idade_q5)
 
+write.csv(df_idade_q5, "D:/Mestrado UFCG/FPCC2/fpcc2-lab1-thiagoarc/csv/questao5.csv")
+
 ```
+### Comentários sobre a questão 5
+* Primeiro foi tratada a coluna de idade para a realização correta dos calculos de média, em seguida foi calculada a média geral das idades, depois foi criada a tabela com as top-5 idades e calculada a sua média, em seguida criada a tabela com as bottom-5 idades e calculada a média, e por último criado um dataframe com os resultados gerados anteriormente e exportado para csv.
