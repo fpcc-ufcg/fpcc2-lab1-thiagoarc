@@ -21,47 +21,25 @@ source("../code/lab1.R")
 ```{r calculo da questão 1}
 
 df_idade <- turma_fpcc2 %>% select(idade) %>% 
-  mutate(idade_int = as.integer(gsub("[a-z]|\\.", "", idade)))
-print('Média geral das idades: ')
-md <- mean(df_idade$idade_int)
-print(md)
-print('Desvio Padrão das idades: ')
-sd(df_idade$idade_int)
+  mutate(idade = as.integer(gsub("[a-z]|\\.", "", idade)))
+
+md_idade <- mean(df_idade$idade)
+dp_idade <- sd(df_idade$idade)
 
 df_ni <- turma_fpcc2 %>% select(conf_sumarios) %>% group_by(conf_sumarios) %>% summarise(nivel = n())
-mean(df_ni$nivel)
-sd(df_ni$nivel)
+md_nivel <- mean(df_ni$nivel)
+dp_nivel <- sd(df_ni$nivel)
 
-print(df_ni)
+fpcc2_campos <- c("Media Idade","Media NI", "DP Idade", "DP NI")
+fpcc2_valores <- c(md_idade,md_nivel,dp_idade,dp_nivel)
 
+fpcc2.data <- data.frame(fpcc2_campos, fpcc2_valores)
 
-print("Internet")
+print(fpcc2.data)
 
-
-
-
-
-
-
-##id <- turma_fpcc2$idade
-##nivel <- turma_fpcc2$conf_sumarios
-
-q1_t <- turma_fpcc2 %>% select(conf_sumarios, idade) %>% mutate(idade = as.integer(gsub("[a-z]|\\.", "", idade)))
-
-df_t <- data.frame(idade=q1_t$idade, nivel=q1_t$conf_sumarios)
-
-df_t[nivel == "Nenhuma confiança"] <- 1
-df_t[nivel == "Um pouco"] <- 2
-df_t[nivel == "Médio"] <- 3
-df_t[nivel == "Bastante confiante"] <- 4
-df_t[nivel == "Totalmente confiante"] <- 5
+write.csv(fpcc2.data,"D:/Mestrado UFCG/FPCC2/fpcc2-lab1-thiagoarc/csv/questao1.csv")
 
 
-print(df_t)
-
-sum_idade <- df_t %>% select(idade, nivel) %>% summarise(m_idade = mean(idade), sd_idade = sd(idade), m_nivel = mean(nivel), sd_nivel= sd(nivel)) %>% arrange()
-
-sum_idade %>% head() %>% formattable::formattable()
 
 
 ```
@@ -106,7 +84,7 @@ graph3 <- ggplot(q1, aes(tipo_curso, media, fill = tipo_curso)) +
 
 print(graph3)
 
-ggsave(graph3, filename='E:/Curso Mestrado/FPCC2/fpcc2-lab1-thiagoarc/images/questao3.png', dpi = 400, type='cairo', units='in')
+ggsave(graph3, filename='D:/Mestrado UFCG/FPCC2/fpcc2-lab1-thiagoarc/images/questao3.png', dpi = 400, type='cairo', units='in')
 
 ```
 
@@ -146,7 +124,7 @@ graph4 <- ggplot(q4, aes(uf, perc, fill = uf)) +
 
 print(graph4)
 
-ggsave(graph4, filename='E:/Curso Mestrado/FPCC2/fpcc2-lab1-thiagoarc/images/questao4.png', dpi = 400, type='cairo', units='in')
+ggsave(graph4, filename='D:/Mestrado UFCG/FPCC2/fpcc2-lab1-thiagoarc/images/questao4.png', dpi = 400, type='cairo', units='in')
 
 ```
 
@@ -154,6 +132,11 @@ ggsave(graph4, filename='E:/Curso Mestrado/FPCC2/fpcc2-lab1-thiagoarc/images/que
 * Compare a média de idade geral com a média de idade dos top-5 e dos bottom-5. Além de apresentar e discutir os resultados no relatório, salvar em uma tabela (dataframe) com as médias em questão.    
 
 ```{r calculo da questão 5}
+df_idade <- turma_fpcc2 %>% select(idade) %>% 
+  mutate(idade = as.integer(gsub("[a-z]|\\.", "", idade)))
+md <- mean(df_idade$idade)
+
+
 
 print('A média geral de idade é: ')
 print(md)
