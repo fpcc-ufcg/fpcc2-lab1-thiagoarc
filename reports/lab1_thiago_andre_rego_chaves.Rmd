@@ -160,7 +160,7 @@ print(' A média do BOTTOM-5 é: ')
 qb5 <- q5 %>%
   arrange(idade) %>%
   slice(1:5)
-
+ 
 print(qb5)
 mbd <- mean(qb5$idade)
 print(mbd)
